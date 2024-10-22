@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUsers } from './useUsers';
+import { useUsers } from '../composables/useUsers';
 import { usersContext } from '../infrastructure/context';
 import AppButton from '@/ui-kit/AppButton.vue';
 import AppIconButton from '@/ui-kit/AppIconButton.vue';

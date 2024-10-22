@@ -6,8 +6,11 @@ import AppInput from '@/ui-kit/AppInput.vue';
 import AppForm from '@/ui-kit/AppForm.vue';
 import AppButton from '@/ui-kit/AppButton.vue';
 import { useRouter } from 'vue-router';
+import { useAuth } from '@/auth/composables/useAuth';
+import AppLogo from '@/ui-kit/AppLogo.vue';
 
 const router = useRouter();
+const { signIn } = useAuth();
 
 const email = ref<string>('test@mail.com');
 function handleEmailUpdate(value: string) {
@@ -20,6 +23,7 @@ function handlePasswordUpdate(value: string) {
 }
 
 function handleSubmit() {
+  signIn();
   router.push({ name: 'home' });
 }
 </script>
@@ -28,7 +32,7 @@ function handleSubmit() {
   <div
     class="d-flex flex-column align-center justify-center ma-auto h-100 ga-8 px-6 w-100 w-md-50 w-xl-33"
   >
-    <div class="logo">VueMart</div>
+    <AppLogo isLoginPage />
     <AppHeading class="text-center" type="h1">
       Log in to your account
     </AppHeading>
@@ -70,10 +74,4 @@ function handleSubmit() {
   </div>
 </template>
 
-<style scoped lang="scss">
-.logo {
-  font-size: 4rem;
-  font-weight: 600;
-  text-align: center;
-}
-</style>
+<style scoped lang="scss"></style>

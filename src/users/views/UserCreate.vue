@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppHeading from '@/ui-kit/AppHeading.vue';
 import AppPageHeading from '@/ui-kit/AppPageHeading.vue';
 import AppButton from '@/ui-kit/AppButton.vue';
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { useUsers } from './useUsers';
-import { useUser } from './useUser';
+import { useUsers } from '../composables/useUsers';
+import { useUser } from '../composables/useUser';
 import { usersContext } from '@/users/infrastructure/context';
 import AppPageHeading from '@/ui-kit/AppPageHeading.vue';
-import type { UsersRepo } from '@/users/domain/usersRepo';
 import AppButton from '@/ui-kit/AppButton.vue';
+import type { UsersRepo } from '@/users/domain/usersRepo';
 
 const userRepo = usersContext.get<UsersRepo>('UsersRepository');
 
