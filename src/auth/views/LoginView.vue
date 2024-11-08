@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuth } from '@/auth/composables/useAuth';
+import { authContext } from '@/auth/infrastructure/context';
 import AppHeading from '@/ui-kit/AppHeading.vue';
 import AppCard from '@/ui-kit/AppCard.vue';
 import AppInput from '@/ui-kit/AppInput.vue';
 import AppForm from '@/ui-kit/AppForm.vue';
 import AppButton from '@/ui-kit/AppButton.vue';
-import { useRouter } from 'vue-router';
-import { useAuth } from '@/auth/composables/useAuth';
 import AppLogo from '@/ui-kit/AppLogo.vue';
+import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 
+import type { AuthRepo } from '@/auth/domain/AuthRepo';
+import { useNotification } from '@/ui-kit/appNotification/useNotification';
+
+const authRepo = authContext.get<AuthRepo>('AuthRepo');
 const router = useRouter();
-const { signIn } = useAuth();
+const { token } = useAuth();
+const { showNotification } = useNotification();
 
 const email = ref<string>('test@mail.com');
 function handleEmailUpdate(value: string) {
@@ -22,9 +29,18 @@ function handlePasswordUpdate(value: string) {
   password.value = value;
 }
 
-function handleSubmit() {
-  signIn();
-  router.push({ name: 'home' });
+async function handleSubmit() {
+  try {
+    const res = await authRepo.signIn({
+      email: email.value,
+      password: password.value
+    });
+    token.value = res.token;
+    localStorage.setItem('token', token.value);
+    await router.push({ name: 'home' });
+  } catch (error) {
+    showNotification(error);
+  }
 }
 </script>
 
@@ -72,6 +88,7 @@ function handleSubmit() {
       </AppForm>
     </AppCard>
   </div>
+  <AppNotification />
 </template>
 
 <style scoped lang="scss"></style>

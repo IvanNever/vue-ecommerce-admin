@@ -8,6 +8,7 @@ import { initPublicContext } from '@/infrastructure/context';
 import { initUserContext } from '@/users/infrastructure/context';
 
 import App from './App.vue';
+import { initAuthContext } from '@/auth/infrastructure/context';
 
 const app = createApp(App);
 
@@ -17,5 +18,6 @@ app.use(router);
 
 initPublicContext();
 initUserContext();
+initAuthContext();
 
 app.mount('#app');

@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify';
 import { useNavbar } from '@/layouts/useNavbar';
-import { useAuth } from '@/auth/composables/useAuth';
 import { useRouter } from 'vue-router';
 import AppIconButton from '@/ui-kit/AppIconButton.vue';
-import AppIcon from '@/ui-kit/AppIcon.vue';
 import AppLogo from '@/ui-kit/AppLogo.vue';
+import LogoutView from '@/auth/views/LogoutView.vue';
 
 const router = useRouter();
 const theme = useTheme();
 const { toggleNavbar } = useNavbar();
-const { signOut } = useAuth();
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
 }
@@ -39,12 +37,7 @@ function toggleTheme() {
           size="x-large"
           @click="toggleTheme"
         ></AppIconButton>
-        <AppIconButton
-          icon="mdi-logout"
-          density="comfortable"
-          size="x-large"
-          @click="signOut"
-        ></AppIconButton>
+        <LogoutView />
       </div>
     </template>
   </v-app-bar>

@@ -11,7 +11,7 @@ import EmptyLayout from '@/layouts/EmptyLayout.vue';
 import LoginView from '@/auth/views/LoginView.vue';
 import AccountView from '@/auth/views/AccountView.vue';
 
-const { isAuthenticated, signIn, signOut } = useAuth();
+const { token } = useAuth();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,16 +79,16 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const currentAuth = localStorage.getItem('isAuthenticated');
+  const currentAuth = localStorage.getItem('token');
   if (currentAuth) {
-    await signIn();
+    token.value = currentAuth;
   }
 
-  if (to.name === 'login-page' && isAuthenticated.value) {
+  if (to.name === 'login-page' && token.value) {
     next({ name: 'home' });
   }
 
-  if (to.name !== 'login-page' && !isAuthenticated.value) {
+  if (to.name !== 'login-page' && !token.value) {
     next({ name: 'login' });
   } else {
     next();
