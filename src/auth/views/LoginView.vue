@@ -14,11 +14,13 @@ import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
 import { apiErrors } from '@/infrastructure/utils/apiErrors';
+import { useTheme } from 'vuetify';
 
 const authRepo = authContext.get<AuthRepo>('AuthRepo');
 const router = useRouter();
 const { token } = useAuth();
 const { showNotification } = useNotification();
+const theme = useTheme();
 
 const email = ref<string>('test@mail.com');
 function handleEmailUpdate(value: string) {
@@ -53,7 +55,10 @@ async function handleSubmit() {
     <AppHeading class="text-center" type="h1">
       Log in to your account
     </AppHeading>
-    <AppCard class="w-100 pa-6 pa-md-10 bg-white mt-4">
+    <AppCard
+      class="w-100 pa-6 pa-md-10 mt-4"
+      :class="{ 'bg-white': !theme.global.current.value.dark }"
+    >
       <AppForm
         class="d-flex flex-column align-center ga-2 ga-md-6"
         @submit="handleSubmit"
