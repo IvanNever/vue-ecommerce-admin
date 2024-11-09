@@ -13,6 +13,7 @@ import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
+import { apiErrors } from '@/infrastructure/utils/apiErrors';
 
 const authRepo = authContext.get<AuthRepo>('AuthRepo');
 const router = useRouter();
@@ -39,7 +40,7 @@ async function handleSubmit() {
     localStorage.setItem('token', token.value);
     await router.push({ name: 'home' });
   } catch (error) {
-    showNotification(error);
+    showNotification(apiErrors(error), 'error');
   }
 }
 </script>
@@ -79,7 +80,7 @@ async function handleSubmit() {
         />
         <AppButton
           class="w-md-50 w-100"
-          color="indigo-accent-3"
+          color="info"
           size="large"
           type="submit"
         >

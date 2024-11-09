@@ -8,3 +8,5 @@ export type BorderRadius =
   | 'pill'
   | 'circle'
   | 'shaped';
+
+export type NotificationType = 'error' | 'warning' | 'info' | 'success';

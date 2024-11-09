@@ -1,16 +1,16 @@
 import { ref } from 'vue';
+import type { NotificationType } from '@/ui-kit/commonTypes';
 
 const isOpen = ref<boolean>(false);
 const message = ref<string>('');
+const type = ref<NotificationType>('info');
 
-function showNotification(newMessage: string) {
+function showNotification(newMessage: string, newType?: NotificationType) {
   isOpen.value = true;
   message.value = newMessage;
-  setTimeout(() => {
-    message.value = '';
-  }, 3000);
+  if (newType) type.value = newType;
 }
 
 export function useNotification() {
-  return { isOpen, message, showNotification };
+  return { isOpen, message, type, showNotification };
 }

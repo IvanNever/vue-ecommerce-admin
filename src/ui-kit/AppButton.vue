@@ -7,7 +7,7 @@ const {
   rounded = 'xs',
   size,
   density,
-  color
+  color = 'info'
 } = defineProps<{
   prependIcon?: string;
   appendIcon?: string;

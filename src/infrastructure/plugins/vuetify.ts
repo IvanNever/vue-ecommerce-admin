@@ -15,7 +15,11 @@ export default createVuetify({
           background: '#ECEFF1',
           surface: '#CFD8DC',
           'on-background': '#212121',
-          'on-surface': '#000000'
+          'on-surface': '#000000',
+          error: '#D50000',
+          info: '#3D5AFE',
+          success: '#4CAF50',
+          warning: '#FB8C00'
         }
       },
       dark: {
@@ -23,7 +27,11 @@ export default createVuetify({
           background: '#263238',
           surface: '#37474F',
           'on-background': '#E0E0E0',
-          'on-surface': '#EEEEEE'
+          'on-surface': '#EEEEEE',
+          error: '#D50000',
+          info: '#3D5AFE',
+          success: '#4CAF50',
+          warning: '#F57C00'
         }
       }
     }
