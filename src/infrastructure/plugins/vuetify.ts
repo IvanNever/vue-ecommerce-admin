@@ -4,11 +4,18 @@ import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
 import '@mdi/font/css/materialdesignicons.css';
 
+const savedTheme = localStorage.getItem('theme');
+
+const prefersTheme =
+  window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+
 export default createVuetify({
   components,
   directives,
   theme: {
-    // defaultTheme: 'dark',
+    defaultTheme: savedTheme || prefersTheme,
     themes: {
       light: {
         colors: {

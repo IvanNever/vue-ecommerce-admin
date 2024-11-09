@@ -24,7 +24,7 @@ const pages = [
 ];
 
 onMounted(() => {
-  if (lg.value || xl.value || xxl.value) toggleNavbar();
+  isNavbar.value = lg.value || xl.value || xxl.value;
 });
 </script>
 
