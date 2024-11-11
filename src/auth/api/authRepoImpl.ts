@@ -1,6 +1,8 @@
 import { BaseRepo } from '@/infrastructure/api/BaseRepo';
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
 import type { Token } from '@/auth/domain/Token';
+import type { User } from '@/users/domain/User';
+import { currentUserFromDto } from '@/auth/api/authDtoMapper';
 
 const baseUrl: string = `${import.meta.env.VITE_API_BASE_URL}/auth`;
 
@@ -8,14 +10,22 @@ export class AuthRepoImpl extends BaseRepo implements AuthRepo {
   constructor() {
     super();
   }
+
   async signIn({
     email,
     password
   }: {
     email: string;
     password: string;
-  }): Promise<Token> {
+  }): Promise<{ token: Token; user: User }> {
     const res = await this.inst.post(`${baseUrl}/sign-in`, { email, password });
-    return res.data;
+    const { user, token } = res.data;
+
+    return { token, user: currentUserFromDto(user) };
+  }
+
+  async getCurrentUser(): Promise<User> {
+    const res = await this.inst.get(`${baseUrl}/current`);
+    return currentUserFromDto(res.data);
   }
 }

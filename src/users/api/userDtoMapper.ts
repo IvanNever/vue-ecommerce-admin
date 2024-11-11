@@ -4,7 +4,8 @@ import type { UserDto } from './userDto';
 export const userFromDto = (user: UserDto): User => {
   return new User(
     user.email,
-    user.roles,
+    user.roles[0].name,
+    user.username,
     user.createdAt,
     user.updatedAt,
     user.id

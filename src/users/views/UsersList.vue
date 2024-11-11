@@ -2,21 +2,26 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUsers } from '../composables/useUsers';
+import { apiErrors } from '@/infrastructure/utils/apiErrors';
+import { useNotification } from '@/ui-kit/appNotification/useNotification';
 import { usersContext } from '../infrastructure/context';
 import AppButton from '@/ui-kit/AppButton.vue';
 import AppIconButton from '@/ui-kit/AppIconButton.vue';
 import AppPageHeading from '@/ui-kit/AppPageHeading.vue';
+
 import type { UsersRepo } from '../domain/usersRepo';
+import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 
 const userRepo = usersContext.get<UsersRepo>('UsersRepository');
 const { users } = useUsers();
 const router = useRouter();
+const { showNotification } = useNotification();
 
 async function getUsers(): Promise<void> {
   try {
     users.value = await userRepo.getUsers();
   } catch (err) {
-    console.log(err);
+    showNotification(apiErrors(error), 'error');
   }
 }
 
@@ -75,7 +80,7 @@ onMounted(() => {
             <span>{{ user.email }}</span>
             <span>{{ user.createdAt }}</span>
             <span>{{ user.updatedAt }}</span>
-            <span>{{ user.roles[0].name }}</span>
+            <span>{{ user.role }}</span>
             <span class="d-flex justify-end ga-3">
               <AppIconButton
                 size="large"
@@ -95,6 +100,7 @@ onMounted(() => {
       </template>
     </div>
   </div>
+  <AppNotification />
 </template>
 
 <style scoped lang="scss">

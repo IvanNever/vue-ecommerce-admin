@@ -1,14 +1,27 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { useTheme } from 'vuetify';
 import { useNavbar } from '@/layouts/useNavbar';
 import { useRouter } from 'vue-router';
+import { useAuth } from '@/auth/composables/useAuth';
+import { useNotification } from '@/ui-kit/appNotification/useNotification';
+import { authContext } from '@/auth/infrastructure/context';
+import { apiErrors } from '@/infrastructure/utils/apiErrors';
 import AppIconButton from '@/ui-kit/AppIconButton.vue';
 import AppLogo from '@/ui-kit/AppLogo.vue';
 import LogoutView from '@/auth/views/LogoutView.vue';
+import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
+
+import type { AuthRepo } from '@/auth/domain/AuthRepo';
+
+const authRepo = authContext.get<AuthRepo>('AuthRepo');
 
 const router = useRouter();
 const theme = useTheme();
 const { toggleNavbar } = useNavbar();
+const { currentUser } = useAuth();
+const { showNotification } = useNotification();
+
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
   localStorage.setItem(
@@ -16,6 +29,18 @@ function toggleTheme() {
     theme.global.current.value.dark ? 'dark' : 'light'
   );
 }
+
+async function getUser(): Promise<void> {
+  try {
+    currentUser.value = await authRepo.getCurrentUser();
+  } catch (error) {
+    showNotification(apiErrors(error), 'error');
+  }
+}
+
+onMounted(async () => {
+  await getUser();
+});
 </script>
 
 <template>
@@ -28,7 +53,7 @@ function toggleTheme() {
     </v-toolbar-title>
     <template #append>
       <div class="pr-2 d-flex align-center ga-1">
-        <span>Ivan N.</span>
+        <span>{{ currentUser?.username }}</span>
         <AppIconButton
           icon="mdi-account-outline"
           density="comfortable"
@@ -45,6 +70,7 @@ function toggleTheme() {
       </div>
     </template>
   </v-app-bar>
+  <AppNotification />
 </template>
 
 <style scoped lang="scss"></style>

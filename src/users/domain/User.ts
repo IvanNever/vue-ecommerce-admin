@@ -3,7 +3,8 @@ import { Entity } from '@/common/domain/Entity';
 export class User extends Entity {
   public constructor(
     private _email: string,
-    private _roles: any[],
+    private _role: string,
+    private _username: string,
     public readonly createdAt: Date,
     public readonly updatedAt: Date,
     id?: number
@@ -15,7 +16,11 @@ export class User extends Entity {
     return this._email;
   }
 
-  public get roles(): any[] {
-    return this._roles;
+  public get role(): string {
+    return this._role;
+  }
+
+  public get username(): string {
+    return this._username;
   }
 }

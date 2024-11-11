@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/auth/composables/useAuth';
 import { authContext } from '@/auth/infrastructure/context';
+import { useNotification } from '@/ui-kit/appNotification/useNotification';
+import { apiErrors } from '@/infrastructure/utils/apiErrors';
+import { useTheme } from 'vuetify';
 import AppHeading from '@/ui-kit/AppHeading.vue';
 import AppCard from '@/ui-kit/AppCard.vue';
 import AppInput from '@/ui-kit/AppInput.vue';
@@ -12,13 +15,10 @@ import AppLogo from '@/ui-kit/AppLogo.vue';
 import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
-import { useNotification } from '@/ui-kit/appNotification/useNotification';
-import { apiErrors } from '@/infrastructure/utils/apiErrors';
-import { useTheme } from 'vuetify';
 
 const authRepo = authContext.get<AuthRepo>('AuthRepo');
 const router = useRouter();
-const { token } = useAuth();
+const { token, currentUser } = useAuth();
 const { showNotification } = useNotification();
 const theme = useTheme();
 
@@ -38,10 +38,14 @@ async function handleSubmit() {
       email: email.value,
       password: password.value
     });
+
+    currentUser.value = res.user;
     token.value = res.token;
     localStorage.setItem('token', token.value);
+
     await router.push({ name: 'home' });
   } catch (error) {
+    console.log(error);
     showNotification(apiErrors(error), 'error');
   }
 }
