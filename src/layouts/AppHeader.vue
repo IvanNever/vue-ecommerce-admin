@@ -10,7 +10,6 @@ import { apiErrors } from '@/infrastructure/utils/apiErrors';
 import AppIconButton from '@/ui-kit/AppIconButton.vue';
 import AppLogo from '@/ui-kit/AppLogo.vue';
 import LogoutView from '@/auth/views/LogoutView.vue';
-import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
 
@@ -70,7 +69,6 @@ onMounted(async () => {
       </div>
     </template>
   </v-app-bar>
-  <AppNotification />
 </template>
 
 <style scoped lang="scss"></style>

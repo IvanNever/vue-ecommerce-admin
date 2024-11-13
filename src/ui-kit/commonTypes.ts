@@ -10,3 +10,11 @@ export type BorderRadius =
   | 'shaped';
 
 export type NotificationType = 'error' | 'warning' | 'info' | 'success';
+
+export type VariantType =
+  | 'elevated'
+  | 'flat'
+  | 'tonal'
+  | 'outlined'
+  | 'text'
+  | 'plain';

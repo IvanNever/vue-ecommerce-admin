@@ -1,13 +1,14 @@
 <script setup lang="ts">
-const { width } = defineProps<{
+import type { VariantType } from '@/ui-kit/commonTypes';
+
+const { width, variant = 'flat' } = defineProps<{
   width?: number | string;
+  variant?: VariantType;
 }>();
 </script>
 
 <template>
-  <v-card :width="width">
+  <v-card :width="width" :variant="variant">
     <slot></slot>
   </v-card>
 </template>
-
-<style scoped lang="scss"></style>

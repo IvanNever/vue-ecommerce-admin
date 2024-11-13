@@ -2,17 +2,16 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/auth/composables/useAuth';
-import { authContext } from '@/auth/infrastructure/context';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
-import { apiErrors } from '@/infrastructure/utils/apiErrors';
 import { useTheme } from 'vuetify';
+import { apiErrors } from '@/infrastructure/utils/apiErrors';
+import { authContext } from '@/auth/infrastructure/context';
 import AppHeading from '@/ui-kit/AppHeading.vue';
 import AppCard from '@/ui-kit/AppCard.vue';
 import AppInput from '@/ui-kit/AppInput.vue';
 import AppForm from '@/ui-kit/AppForm.vue';
 import AppButton from '@/ui-kit/AppButton.vue';
 import AppLogo from '@/ui-kit/AppLogo.vue';
-import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
 
@@ -21,6 +20,9 @@ const router = useRouter();
 const { token, currentUser } = useAuth();
 const { showNotification } = useNotification();
 const theme = useTheme();
+
+const isLoading = ref(false);
+const showPassword = ref<boolean>(false);
 
 const email = ref<string>('test@mail.com');
 function handleEmailUpdate(value: string) {
@@ -34,6 +36,7 @@ function handlePasswordUpdate(value: string) {
 
 async function handleSubmit() {
   try {
+    isLoading.value = true;
     const res = await authRepo.signIn({
       email: email.value,
       password: password.value
@@ -45,8 +48,9 @@ async function handleSubmit() {
 
     await router.push({ name: 'home' });
   } catch (error) {
-    console.log(error);
     showNotification(apiErrors(error), 'error');
+  } finally {
+    isLoading.value = false;
   }
 }
 </script>
@@ -82,9 +86,11 @@ async function handleSubmit() {
           class="w-100"
           label="Password"
           placeholder="Password..."
-          type="password"
           variant="outlined"
           autocomplete="current-password"
+          :type="showPassword ? 'text' : 'password'"
+          :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+          @click:append-inner="showPassword = !showPassword"
           @update:model-value="handlePasswordUpdate"
         />
         <AppButton
@@ -92,13 +98,13 @@ async function handleSubmit() {
           color="info"
           size="large"
           type="submit"
+          :loading="isLoading"
         >
           Log in
         </AppButton>
       </AppForm>
     </AppCard>
   </div>
-  <AppNotification />
 </template>
 
 <style scoped lang="scss"></style>

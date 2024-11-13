@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BorderRadius, Sizes } from '@/ui-kit/commonTypes';
+import type { BorderRadius, Sizes, VariantType } from '@/ui-kit/commonTypes';
 
 const {
   prependIcon,
@@ -7,7 +7,9 @@ const {
   rounded = 'xs',
   size,
   density,
-  color = 'info'
+  color = 'info',
+  loading,
+  variant = 'flat'
 } = defineProps<{
   prependIcon?: string;
   appendIcon?: string;
@@ -15,6 +17,8 @@ const {
   size?: Sizes | number;
   density?: 'default' | 'comfortable' | 'compact';
   color?: string;
+  loading?: boolean;
+  variant?: VariantType;
 }>();
 </script>
 
@@ -26,6 +30,8 @@ const {
     :rounded="rounded"
     :density="density"
     :color="color"
+    :loading="loading"
+    :variant="variant"
   >
     <slot></slot>
   </v-btn>

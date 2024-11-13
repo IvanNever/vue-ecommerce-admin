@@ -10,7 +10,6 @@ import AppIconButton from '@/ui-kit/AppIconButton.vue';
 import AppPageHeading from '@/ui-kit/AppPageHeading.vue';
 
 import type { UsersRepo } from '../domain/usersRepo';
-import AppNotification from '@/ui-kit/appNotification/AppNotification.vue';
 
 const userRepo = usersContext.get<UsersRepo>('UsersRepository');
 const { users } = useUsers();
@@ -100,7 +99,6 @@ onMounted(() => {
       </template>
     </div>
   </div>
-  <AppNotification />
 </template>
 
 <style scoped lang="scss">
