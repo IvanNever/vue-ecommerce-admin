@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
+import { apiErrors } from '@/infrastructure/utils/apiErrors';
+import { useDisplay } from 'vuetify';
 import AppButton from '@/ui-kit/AppButton.vue';
 import AppForm from '@/ui-kit/AppForm.vue';
 import AppInput from '@/ui-kit/AppInput.vue';
-import { apiErrors } from '@/infrastructure/utils/apiErrors';
 
 const { showNotification } = useNotification();
+const { smAndUp } = useDisplay();
 
 const isLoading = ref<boolean>(false);
 const showPassword = ref<boolean>(false);
@@ -51,6 +53,7 @@ async function handleSubmit(): void {
       placeholder="New password..."
       variant="outlined"
       :type="showPassword ? 'text' : 'password'"
+      :density="smAndUp ? 'default' : 'compact'"
       :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
       @click:append-inner="showPassword = !showPassword"
       @update:model-value="handlePasswordUpdate"
@@ -62,6 +65,7 @@ async function handleSubmit(): void {
       placeholder="Confirm password..."
       variant="outlined"
       :type="showPassword ? 'text' : 'password'"
+      :density="smAndUp ? 'default' : 'compact'"
       :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
       @click:append-inner="showPassword = !showPassword"
       @update:model-value="handlePasswordConfirmUpdate"
@@ -69,7 +73,7 @@ async function handleSubmit(): void {
     <AppButton
       :loading="isUpdating"
       type="submit"
-      size="large"
+      :size="smAndUp ? 'large' : undefined"
       class="d-block ml-auto"
     >
       Update password

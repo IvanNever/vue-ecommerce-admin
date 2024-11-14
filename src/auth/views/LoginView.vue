@@ -3,7 +3,6 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/auth/composables/useAuth';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
-import { useTheme } from 'vuetify';
 import { apiErrors } from '@/infrastructure/utils/apiErrors';
 import { authContext } from '@/auth/infrastructure/context';
 import AppHeading from '@/ui-kit/AppHeading.vue';
@@ -19,7 +18,6 @@ const authRepo = authContext.get<AuthRepo>('AuthRepo');
 const router = useRouter();
 const { token, currentUser } = useAuth();
 const { showNotification } = useNotification();
-const theme = useTheme();
 
 const isLoading = ref(false);
 const showPassword = ref<boolean>(false);
@@ -63,10 +61,7 @@ async function handleSubmit() {
     <AppHeading class="text-center" type="h1">
       Log in to your account
     </AppHeading>
-    <AppCard
-      class="w-100 pa-6 pa-md-10 mt-4"
-      :class="{ 'bg-white': !theme.global.current.value.dark }"
-    >
+    <AppCard class="w-100 pa-6 pa-md-10 mt-4">
       <AppForm
         class="d-flex flex-column align-center ga-2 ga-md-6"
         @submit="handleSubmit"

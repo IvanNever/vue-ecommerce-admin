@@ -8,12 +8,15 @@ type InputVariants =
   | 'solo-inverted'
   | 'solo-filled';
 
-const { label, placeholder, type, variant } = defineProps<{
+type InputDensity = 'default' | 'comfortable' | 'compact';
+
+const { label, placeholder, type, variant, density } = defineProps<{
   modelValue?: string | number;
   label?: string;
   placeholder?: string;
   type?: string;
   variant?: InputVariants;
+  density?: InputDensity;
 }>();
 </script>
 
@@ -24,6 +27,7 @@ const { label, placeholder, type, variant } = defineProps<{
     :placeholder="placeholder"
     :type="type"
     :variant="variant"
+    :density="density"
     @update:model-value="(value) => $emit('update:model-value', value)"
   ></v-text-field>
 </template>

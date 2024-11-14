@@ -1,6 +1,5 @@
 import { createApp } from 'vue';
 import router from './infrastructure/router';
-import { createPinia } from 'pinia';
 import vuetify from './infrastructure/plugins/vuetify';
 import './assets/styles/main.scss';
 
@@ -13,7 +12,6 @@ import { initAuthContext } from '@/auth/infrastructure/context';
 const app = createApp(App);
 
 app.use(vuetify);
-app.use(createPinia());
 app.use(router);
 
 initPublicContext();

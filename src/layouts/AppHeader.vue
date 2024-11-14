@@ -52,7 +52,9 @@ onMounted(async () => {
     </v-toolbar-title>
     <template #append>
       <div class="pr-2 d-flex align-center ga-1">
-        <span>{{ currentUser?.username }}</span>
+        <span class="d-none d-md-inline-block">{{
+          currentUser?.username
+        }}</span>
         <AppIconButton
           icon="mdi-account-outline"
           density="comfortable"

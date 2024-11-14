@@ -26,27 +26,14 @@ const breadcrumbs = [
 <template>
   <AppPageHeading title="Account" :breadcrumbs="breadcrumbs" />
   <AppSpinner v-if="!currentUser" />
-  <div v-else class="account">
-    <AppHeading type="h2"> Update your account data </AppHeading>
-    <AppCard class="account__card">
+  <div v-else class="d-flex flex-column ga-3">
+    <AppHeading type="h3"> Update your account data </AppHeading>
+    <AppCard class="d-flex flex-column px-3 py-4 px-md-4 py-md-6 pb-md-4">
       <UpdateCurrentUserDataForm />
     </AppCard>
-    <AppHeading type="h2" class="mt-6"> Update your password </AppHeading>
-    <AppCard class="account__card">
+    <AppHeading type="h3" class="mt-6"> Update your password </AppHeading>
+    <AppCard class="d-flex flex-column px-3 py-4 px-md-4 py-md-6 pb-md-4">
       <UpdateCurrentUserPasswordForm />
     </AppCard>
   </div>
 </template>
-
-<style scoped lang="scss">
-.account {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  &__card {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem 2rem 1.8rem;
-  }
-}
-</style>

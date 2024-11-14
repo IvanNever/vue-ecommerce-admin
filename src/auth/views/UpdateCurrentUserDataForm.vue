@@ -3,12 +3,14 @@ import { ref } from 'vue';
 import { useAuth } from '@/auth/composables/useAuth';
 import { apiErrors } from '@/infrastructure/utils/apiErrors';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
+import { useDisplay } from 'vuetify';
 import AppForm from '@/ui-kit/AppForm.vue';
 import AppInput from '@/ui-kit/AppInput.vue';
 import AppButton from '@/ui-kit/AppButton.vue';
 
 const { currentUser } = useAuth();
 const { showNotification } = useNotification();
+const { smAndUp } = useDisplay();
 
 const isUpdating = ref<boolean>(false);
 
@@ -42,6 +44,7 @@ async function handleSubmit() {
       placeholder="Enter user name..."
       type="text"
       variant="outlined"
+      :density="smAndUp ? 'default' : 'compact'"
       @update:model-value="handleUsernameUpdate"
     />
     <AppInput
@@ -51,12 +54,13 @@ async function handleSubmit() {
       placeholder="Email address..."
       type="email"
       variant="outlined"
+      :density="smAndUp ? 'default' : 'compact'"
       @update:model-value="handleEmailUpdate"
     />
     <AppButton
       :loading="isUpdating"
       type="submit"
-      size="large"
+      :size="smAndUp ? 'large' : undefined"
       class="d-block ml-auto"
     >
       Update account
