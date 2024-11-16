@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, onMounted, ref, useTemplateRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/auth/composables/useAuth';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
@@ -13,26 +13,59 @@ import AppButton from '@/ui-kit/AppButton.vue';
 import AppLogo from '@/ui-kit/AppLogo.vue';
 
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
+import { emailRegex } from '@/infrastructure/utils/emailRegex';
 
 const authRepo = authContext.get<AuthRepo>('AuthRepo');
 const router = useRouter();
 const { token, currentUser } = useAuth();
 const { showNotification } = useNotification();
+const emailInput = useTemplateRef('emailInput');
 
 const isLoading = ref(false);
 const showPassword = ref<boolean>(false);
 
-const email = ref<string>('test@mail.com');
+const errors = ref({
+  email: '',
+  password: ''
+});
+
+const isErrorsExist = computed<boolean>(() => {
+  return !!(errors.value.email || errors.value.password);
+});
+
+const email = ref<string>('');
 function handleEmailUpdate(value: string) {
+  if (!value) {
+    errors.value.email = 'This field is required';
+  } else {
+    errors.value.email = '';
+  }
   email.value = value;
 }
 
-const password = ref<string>('12345');
+const password = ref<string>('');
 function handlePasswordUpdate(value: string) {
+  if (!value) {
+    errors.value.password = 'This field is required';
+  } else {
+    errors.value.password = '';
+  }
   password.value = value;
 }
 
 async function handleSubmit() {
+  if (!email.value) {
+    errors.value.email = 'This field is required';
+  } else if (!emailRegex.test(email.value)) {
+    errors.value.email = 'Please enter a valid email address';
+  }
+
+  if (!password.value) {
+    errors.value.password = 'This field is required';
+  }
+
+  if (isErrorsExist.value) return;
+
   try {
     isLoading.value = true;
     const res = await authRepo.signIn({
@@ -51,6 +84,10 @@ async function handleSubmit() {
     isLoading.value = false;
   }
 }
+
+onMounted(() => {
+  emailInput.value.inputRef.focus();
+});
 </script>
 
 <template>
@@ -67,7 +104,9 @@ async function handleSubmit() {
         @submit="handleSubmit"
       >
         <AppInput
+          ref="emailInput"
           :modelValue="email"
+          :errorMessages="errors.email"
           class="w-100"
           label="E-mail"
           placeholder="Email address..."
@@ -78,6 +117,7 @@ async function handleSubmit() {
         />
         <AppInput
           :modelValue="password"
+          :errorMessages="errors.password"
           class="w-100"
           label="Password"
           placeholder="Password..."
