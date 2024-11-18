@@ -2,27 +2,13 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUsers } from '../composables/useUsers';
-import { apiErrors } from '@/infrastructure/utils/apiErrors';
-import { useNotification } from '@/ui-kit/appNotification/useNotification';
-import { usersContext } from '../infrastructure/context';
 import AppButton from '@/ui-kit/AppButton.vue';
 import AppIconButton from '@/ui-kit/AppIconButton.vue';
 import AppPageHeading from '@/ui-kit/AppPageHeading.vue';
+import AppSpinner from '@/ui-kit/AppSpinner.vue';
 
-import type { UsersRepo } from '../domain/usersRepo';
-
-const userRepo = usersContext.get<UsersRepo>('UsersRepository');
-const { users } = useUsers();
+const { users, isLoading, getUsers } = useUsers();
 const router = useRouter();
-const { showNotification } = useNotification();
-
-async function getUsers(): Promise<void> {
-  try {
-    users.value = await userRepo.getUsers();
-  } catch (err) {
-    showNotification(apiErrors(error), 'error');
-  }
-}
 
 function showCreateUser(): void {
   router.push({ name: 'user-create' });
@@ -65,7 +51,8 @@ onMounted(() => {
     </AppPageHeading>
 
     <div>
-      <div v-if="!users.length">No users</div>
+      <AppSpinner v-if="isLoading" />
+      <div v-else-if="!users.length">No users</div>
       <template v-else>
         <div class="users__row header">
           <span>Email</span>
