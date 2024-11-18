@@ -5,6 +5,7 @@ import { useAuth } from '@/auth/composables/useAuth';
 import { useNotification } from '@/ui-kit/appNotification/useNotification';
 import { apiErrors } from '@/infrastructure/utils/apiErrors';
 import { authContext } from '@/auth/infrastructure/context';
+import { emailRegex } from '@/infrastructure/utils/emailRegex';
 import AppHeading from '@/ui-kit/AppHeading.vue';
 import AppCard from '@/ui-kit/AppCard.vue';
 import AppInput from '@/ui-kit/AppInput.vue';
@@ -13,7 +14,6 @@ import AppButton from '@/ui-kit/AppButton.vue';
 import AppLogo from '@/ui-kit/AppLogo.vue';
 
 import type { AuthRepo } from '@/auth/domain/AuthRepo';
-import { emailRegex } from '@/infrastructure/utils/emailRegex';
 
 const authRepo = authContext.get<AuthRepo>('AuthRepo');
 const router = useRouter();

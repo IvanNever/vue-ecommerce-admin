@@ -7,20 +7,8 @@ import AppIconButton from '@/ui-kit/AppIconButton.vue';
 import AppPageHeading from '@/ui-kit/AppPageHeading.vue';
 import AppSpinner from '@/ui-kit/AppSpinner.vue';
 
-const { users, isLoading, getUsers } = useUsers();
 const router = useRouter();
-
-function showCreateUser(): void {
-  router.push({ name: 'user-create' });
-}
-
-function showUserDetails(id: number): void {
-  router.push({ name: 'user-details', params: { id: id.toString() } });
-}
-
-function deleteUser(): void {
-  console.log('delete');
-}
+const { users, isLoading, getUsers } = useUsers();
 
 const breadcrumbs = [
   {
@@ -34,6 +22,18 @@ const breadcrumbs = [
     href: 'users'
   }
 ];
+
+function showCreateUser(): void {
+  router.push({ name: 'user-create' });
+}
+
+function showUserDetails(id: number): void {
+  router.push({ name: 'user-details', params: { id: id.toString() } });
+}
+
+function deleteUser(): void {
+  console.log('delete');
+}
 
 onMounted(() => {
   if (!users.value.length) {

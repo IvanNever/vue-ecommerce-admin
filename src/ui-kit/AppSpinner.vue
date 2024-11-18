@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <v-progress-circular
-    intermediate
+    indeterminate
     :size="size"
     :width="width"
   ></v-progress-circular>
