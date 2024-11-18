@@ -4,4 +4,5 @@ import type { User } from '@/users/domain/User';
 export interface AuthRepo {
   singIn({ email: string, password: string }): Promise<Token>;
   getCurrentUser(): Promise<User>;
+  updateCurrentUserPassword(password: string): Promise<void>;
 }

@@ -28,4 +28,8 @@ export class AuthRepoImpl extends BaseRepo implements AuthRepo {
     const res = await this.inst.get(`${baseUrl}/current`);
     return currentUserFromDto(res.data);
   }
+
+  async updateCurrentUserPassword(password: string): Promise<void> {
+    await this.inst.patch(`${baseUrl}/password`, { password });
+  }
 }

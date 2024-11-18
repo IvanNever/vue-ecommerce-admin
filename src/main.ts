@@ -5,9 +5,9 @@ import './assets/styles/main.scss';
 
 import { initPublicContext } from '@/infrastructure/context';
 import { initUserContext } from '@/users/infrastructure/context';
+import { initAuthContext } from '@/auth/infrastructure/context';
 
 import App from './App.vue';
-import { initAuthContext } from '@/auth/infrastructure/context';
 
 const app = createApp(App);
 
