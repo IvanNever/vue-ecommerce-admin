@@ -141,5 +141,3 @@ onMounted(() => {
     </AppCard>
   </div>
 </template>
-
-<style scoped lang="scss"></style>

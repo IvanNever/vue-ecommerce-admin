@@ -17,5 +17,15 @@ export default defineConfig({
         api: 'modern-compiler'
       }
     }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/infrastructure/test-utils/setupTests.ts'],
+    server: {
+      deps: {
+        inline: ['vuetify']
+      }
+    }
   }
 });
